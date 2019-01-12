@@ -39,7 +39,7 @@ def water_temp_c(flour_temp_c, levain_temp_c, room_temp_c):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('total_loaves_weight', type=int)
-    parser.add_argument('hydration_ratio', type=float)
+    parser.add_argument('hydration_ratio', type=float) #value between 0 and 1
     parser.add_argument('--ambient-temps', nargs=3)
 
     args = parser.parse_args()
