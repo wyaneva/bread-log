@@ -36,10 +36,17 @@ def water_temp_c(flour_temp_c, levain_temp_c, room_temp_c):
     return ((CONSTS.FINAL_DOUGH_TEMP_C.value * 4)
             - (flour_temp_c + levain_temp_c + room_temp_c))
 
+def restricted_float(x):
+    x = float(x)
+    if x < 0.0 or x > 1.0:
+        raise argparse.ArgumentTypeError(f"{x} not in range [0.0, 1.0]")
+    return x
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('total_loaves_weight', type=int)
-    parser.add_argument('hydration_ratio', type=float) #value between 0 and 1
+    parser.add_argument('hydration_ratio', type=restricted_float,
+                        help='between 0.0 and 1.0')
     parser.add_argument('--ambient-temps', nargs=3)
 
     args = parser.parse_args()
