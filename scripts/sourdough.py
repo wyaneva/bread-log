@@ -47,7 +47,9 @@ if __name__ == '__main__':
     parser.add_argument('total_loaves_weight', type=int)
     parser.add_argument('hydration_ratio', type=restricted_float,
                         help='between 0.0 and 1.0')
-    parser.add_argument('--ambient-temps', nargs=3)
+    parser.add_argument('--ambient-temps', nargs=3,
+                        help='ambient, flour, and levain temperatures (degrees '
+                             'celsius) in any order')
 
     args = parser.parse_args()
 
