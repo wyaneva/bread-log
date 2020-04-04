@@ -14,23 +14,21 @@ def c2f(c):
     return (c * 9.0/5.0) + 32
 
 class RATIOS(Enum):
-    WHITE = 82.43
-    BROWN = 12.16
-    RYE   = 5.41
-    LEVAIN = 20.27
-    SALT   = 1.95
+    WHITE = 0.8243
+    BROWN = 0.1216
+    RYE   = 0.0541
+    LEVAIN = 0.2027
+    SALT   = 0.0195
 
 class CONSTS(Enum):
     FINAL_DOUGH_TEMP_C = f2c(78)
+    LEVAIN_HYDRATION = 0.5
 
 def print_weights(total_flour):
     print(f"individual weights:")
     for r in RATIOS:
         print(f"  {r.name:<6} : {total_flour:.2f}g * "
-              f"{r.value / 100} = {r.value * total_flour / 100:>8.4f}g")
-
-def water_weight(total_flour):
-    return total_flour * 0.70
+              f"{r.value} = {r.value * total_flour:>8.4f}g")
 
 def water_temp_c(flour_temp_c, levain_temp_c, room_temp_c):
     return ((CONSTS.FINAL_DOUGH_TEMP_C.value * 4)
@@ -53,14 +51,31 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    flour_weight = (args.total_loaves_weight /
-                     (1 + args.hydration_ratio
-                        + (RATIOS.LEVAIN.value / 100)
-                        + (RATIOS.SALT.value / 100)))
+    print(f"assuming levain hydration: {CONSTS.LEVAIN_HYDRATION.value:.2f}")
+
+    dry_weight = (args.total_loaves_weight / (1 + args.hydration_ratio))
+    wet_weight = args.total_loaves_weight - dry_weight
+
+    print(f"total dry weight: {dry_weight:.2f}g")
+    print(f"total wet weight: {wet_weight:.2f}g")
+    print("---------------------------------")
+
+    levain_flour_weight_ratio = (
+        1 + (RATIOS.LEVAIN.value * CONSTS.LEVAIN_HYDRATION.value)
+    )
+    levain_weight = (
+        RATIOS.LEVAIN.value * (dry_weight / levain_flour_weight_ratio)
+    )
+
+    levain_flour_weight = levain_weight * CONSTS.LEVAIN_HYDRATION.value
+    levain_water_weight = levain_weight * (1 - CONSTS.LEVAIN_HYDRATION.value)
+
+    flour_weight = dry_weight - levain_flour_weight
+    water_weight = (args.hydration_ratio * dry_weight) - levain_water_weight
 
     print(f"total flour weight: {flour_weight:.2f}g")
     print_weights(flour_weight)
-    print(f"water weight: {water_weight(flour_weight):.2f}g")
+    print(f"additional water weight: {water_weight:.2f}g")
     if args.ambient_temps:
         temps_as_floats = map(float, args.ambient_temps)
         print(f"water temperature: {water_temp_c(*temps_as_floats):.2f}C")
