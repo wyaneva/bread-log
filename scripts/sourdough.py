@@ -22,7 +22,7 @@ class RATIOS(Enum):
 
 class CONSTS(Enum):
     FINAL_DOUGH_TEMP_C = f2c(78)
-    LEVAIN_HYDRATION = 0.5
+    LEVAIN_HYDRATION = 1.0
 
 def print_weights(total_flour):
     print(f"individual weights:")
