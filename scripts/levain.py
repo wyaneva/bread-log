@@ -31,9 +31,10 @@ if __name__ == '__main__':
     print()
     print(f"start levain: {x:.1f}g")
     print("---------------------------------")
+    print("     \tlevain\tflour\twater")
     while (n > 0):
         n = n - 1;
-        print(f"step {num_steps-n}: {x:.1f} {x:.1f} {x:.1f}")
+        print(f"step {num_steps-n}:\t{x:.1f}g\t{x:.1f}g\t{x:.1f}g")
         x = 3*x;
     print("---------------------------------")
     print(f"end levain: {x:.1f}g")
