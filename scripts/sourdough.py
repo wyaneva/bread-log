@@ -27,8 +27,8 @@ class CONSTS(Enum):
 def print_weights(total_flour):
     print(f"individual weights:")
     for r in RATIOS:
-        print(f"  {r.name:<6} : {total_flour:.2f}g * "
-              f"{r.value} = {r.value * total_flour:>8.4f}g")
+        print(f"  {r.name:<6} : {total_flour:.0f}g * "
+              f"{r.value} = {r.value * total_flour:>8.0f}g")
 
 def water_temp_c(flour_temp_c, levain_temp_c, room_temp_c):
     return ((CONSTS.FINAL_DOUGH_TEMP_C.value * 4)
@@ -56,8 +56,8 @@ if __name__ == '__main__':
     dry_weight = (args.total_loaves_weight / (1 + args.hydration_ratio))
     wet_weight = args.total_loaves_weight - dry_weight
 
-    print(f"total dry weight: {dry_weight:.2f}g")
-    print(f"total wet weight: {wet_weight:.2f}g")
+    print(f"total dry weight: {dry_weight:.0f}g")
+    print(f"total wet weight: {wet_weight:.0f}g")
     print("---------------------------------")
 
     levain_flour_weight_ratio = (
@@ -73,9 +73,9 @@ if __name__ == '__main__':
     flour_weight = dry_weight - levain_flour_weight
     water_weight = (args.hydration_ratio * dry_weight) - levain_water_weight
 
-    print(f"total flour weight: {flour_weight:.2f}g")
+    print(f"total flour weight: {flour_weight:.0f}g")
     print_weights(flour_weight)
-    print(f"additional water weight: {water_weight:.2f}g")
+    print(f"additional water weight: {water_weight:.0f}g")
     if args.ambient_temps:
         temps_as_floats = map(float, args.ambient_temps)
-        print(f"water temperature: {water_temp_c(*temps_as_floats):.2f}C")
+        print(f"water temperature: {water_temp_c(*temps_as_floats):.0f}C")
