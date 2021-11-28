@@ -67,8 +67,8 @@ if __name__ == '__main__':
         RATIOS.LEVAIN.value * (dry_weight / levain_flour_weight_ratio)
     )
 
-    levain_flour_weight = levain_weight * CONSTS.LEVAIN_HYDRATION.value
-    levain_water_weight = levain_weight * (1 - CONSTS.LEVAIN_HYDRATION.value)
+    levain_flour_weight = levain_weight / (CONSTS.LEVAIN_HYDRATION.value + 1)
+    levain_water_weight = levain_weight - levain_flour_weight
 
     flour_weight = dry_weight - levain_flour_weight
     water_weight = (args.hydration_ratio * dry_weight) - levain_water_weight
